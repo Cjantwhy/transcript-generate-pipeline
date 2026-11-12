@@ -26,7 +26,7 @@ uv run main.py <video-url> [-o OUTPUT_DIR] [-m MODEL] [-l LANGUAGE] [--max-line 
 | `--max-line` | Max characters per subtitle line | 20 for CJK, 42 otherwise |
 | `-c`, `--concurrent-fragments` | Number of fragments downloaded in parallel | `4` |
 
-**About `-c`:** for long m3u8 (HLS) videos, which are split into many small fragments, raise this value (e.g. `16` or higher); otherwise the download can be very slow. In other cases, start with a small value and increase it gradually if needed.
+**About `-c`:** for long m3u8 (HLS) videos, which are split into many small fragments, raise this value (e.g. `8`); otherwise the download can be very slow. In other cases, start with a small value and increase it gradually if needed.
 
 Example:
 

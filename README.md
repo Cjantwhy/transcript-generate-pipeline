@@ -15,7 +15,7 @@ uv sync
 Run it with a video URL, adjusting the options as needed:
 
 ```bash
-uv run main.py <video-url> [-o OUTPUT_DIR] [-m MODEL] [-l LANGUAGE] [--max-line N]
+uv run main.py <video-url> [-o OUTPUT_DIR] [-m MODEL] [-l LANGUAGE] [--max-line N] [-c N]
 ```
 
 | Option | Description | Default |
@@ -24,6 +24,9 @@ uv run main.py <video-url> [-o OUTPUT_DIR] [-m MODEL] [-l LANGUAGE] [--max-line 
 | `-m`, `--model` | Whisper model (`tiny`, `base`, `small`, `medium`, `large-v3`, ...) | `small` |
 | `-l`, `--language` | Language code, e.g. `en`, `ja` | auto-detect |
 | `--max-line` | Max characters per subtitle line | 20 for CJK, 42 otherwise |
+| `-c`, `--concurrent-fragments` | Number of fragments downloaded in parallel | `4` |
+
+**About `-c`:** for long m3u8 (HLS) videos, which are split into many small fragments, raise this value (e.g. `16` or higher); otherwise the download can be very slow. In other cases, start with a small value and increase it gradually if needed.
 
 Example:
 

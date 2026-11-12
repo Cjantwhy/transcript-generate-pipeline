@@ -31,16 +31,21 @@ def parse_args():
         "--max-line", type=int, default=None,
         help="Max characters per subtitle line (default: 20 for CJK, 42 otherwise); at most two lines per cue",
     )
+    parser.add_argument(
+        "-c", "--concurrent-fragments", type=int, default=4,
+        help="Number of fragments to download in parallel (default: 4); "
+             "increase it for long m3u8 videos",
+    )
     return parser.parse_args()
 
 
-def download(url: str, output_dir: Path) -> Path:
+def download(url: str, output_dir: Path, concurrent_fragments: int) -> Path:
     opts = {
         "format": "bestvideo+bestaudio/best",
         "merge_output_format": "mkv",
         "paths": {"home": str(output_dir)},
         "outtmpl": "%(title).80s [%(id)s].%(ext)s",
-        "concurrent_fragment_downloads": 8,
+        "concurrent_fragment_downloads": concurrent_fragments,
     }
     with yt_dlp.YoutubeDL(opts) as ydl:
         info = ydl.extract_info(url, download=True)
@@ -133,7 +138,7 @@ def main():
               "Mac: brew install ffmpeg; Windows: winget install ffmpeg")
 
     try:
-        video_path = download(args.url, output_dir)
+        video_path = download(args.url, output_dir, args.concurrent_fragments)
     except yt_dlp.utils.DownloadError as e:
         print(f"Download failed: {e}")
         sys.exit(1)
